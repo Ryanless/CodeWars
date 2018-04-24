@@ -21,5 +21,23 @@ def zeros(n):
     return c5
 
 
+# Extract the domain name from a URL
+
+
+#without regex pattern match
+def domain_name_1(url):
+    urlParts = url.split('/')
+    if len(urlParts) > 1 and urlParts[1] == '':
+        result = urlParts[2].split('.')
+    else:
+        result = urlParts[0].split('.')
+    if result[0] == 'www':
+        return result[1]
+    else:
+        return result[0]
+
+
+
+
 
 
