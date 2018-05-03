@@ -25,7 +25,7 @@ def zeros(n):
 
 
 #without regex pattern match
-def domain_name_1(url):
+def domain_name(url):
     urlParts = url.split('/')
     if len(urlParts) > 1 and urlParts[1] == '':
         result = urlParts[2].split('.')
@@ -35,6 +35,16 @@ def domain_name_1(url):
         return result[1]
     else:
         return result[0]
+
+
+def isPP(n):
+    for i in range(2, int(n**0.5)+1):
+        ex = 2
+        while i**ex <= n:
+            if i**ex == n:
+                return [i, ex]
+            ex += 1
+    return None
 
 
 
