@@ -22,3 +22,17 @@ def high_and_low(numbers):
     numb = [ int(x) for x in numbers.split(' ')]
     return format('%d %d' % (max(numb), min(numb)))
 
+
+
+
+#CH7: String Reordering
+def sentence(liste):
+    book = {}
+    ordered_words = []
+    for dic in liste:
+        book.update(dic)
+    for i in range (-999, 999):
+        if str(i) in book:
+            ordered_words.append(book[str(i)])
+    return ' '.join(ordered_words)
+

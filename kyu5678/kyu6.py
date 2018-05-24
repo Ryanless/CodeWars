@@ -75,3 +75,25 @@ def unique_in_order(iterable):
         if iterable[i] != result[-1]:
             result.append(iterable[i])
     return result
+
+
+#CH6: Stop gninnipS My sdroW!
+def spin_words(sentence):
+    words = sentence.split(' ')
+    new_words = []
+    for word in words:
+        if len(word)> 4:
+            new_words.append(word[::-1])
+        else:
+            new_words.append(word)
+    return (' ').join(new_words)
+
+#CH6: Find the missing letter
+def find_missing_letter(chars):
+    alpha = 'abcdefghijklmnopqrstuvwxyz'
+    offset = alpha.find(chars[0].lower())
+    for i in range(len(chars)):
+        if not chars[i].lower() == alpha[i + offset]:
+            return alpha[i + offset] if chars[0].islower() else alpha[i + offset].upper()
+
+
