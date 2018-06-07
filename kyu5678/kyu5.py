@@ -223,7 +223,57 @@ def getSolutionString(diff, solution, isLast = False):
         if not isLast: solution.append('D1')
 
 
+#CH5: Weight for weight
+def order_weight_try1(string):
+    #this version fails to sort the numbers that have the same quersumme
+    weights = [ [int(x), sum([int(i) for i in x]) ] for x in string.split(' ')]
+    sorted_weights = sorted(weights, key=lambda f: f[1])
+    return sorted_weights
+    solution = [str(j[0]) for j in sorted_weights]
+    return ' '.join(solution)
 
 
+def order_weight_try2(string):
+    weights = {quersumme(j): j for j in string.split(' ')}
+    return weights
 
 
+def order_weight(string):
+    if string == "":
+        return ""
+    weights = [[int(x), quersumme(x)] for x in string.split(' ')]
+    quer = sorted(list(set([y[1] for y in weights])))
+    sol = []
+
+    for z in quer:
+        arr = sorted([str(i[0]) for i in weights if i[1] == z])
+        sol.append( ' '.join(arr))
+    return ' '.join(sol)
+
+
+def quersumme(n):
+    return sum([int(i) for i in n])
+
+
+#CH5: Directions Reduction
+def dirReduc(arr):
+    newArr = arr
+    for index in range(1, len(arr)):
+        if isOpposite(arr[index], arr[index -1]):
+            newArr = dirReduc(arr[:index -1] + arr[index + 1:])
+    return newArr
+
+def isOpposite(A, B):
+    a, b = A.lower(), B.lower()
+    res = -1
+    if a == "north":
+        res = True if b == "south" else False
+    elif a == "south":
+        res = True if b == "north" else False
+    elif a == "east":
+        res = True if b == "west" else False
+    elif a == "west":
+        res = True if b == "east" else False
+    else:
+        raise Exception
+    return res

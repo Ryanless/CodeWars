@@ -96,4 +96,78 @@ def find_missing_letter(chars):
         if not chars[i].lower() == alpha[i + offset]:
             return alpha[i + offset] if chars[0].islower() else alpha[i + offset].upper()
 
+#CH6: Vector Operations and Functionals
+def vector_op(func, *vs):
+    # for just the first element: func([element[0] for element in vs])
+    return [func([element[index] for element in vs]) for index in range(len(vs[0]))]
 
+
+def iter_mult(xs):
+    res = 1
+    for ele in xs:
+        res *= ele
+    return res
+
+
+def iter_eq(xs):
+    if len(xs) == 1: return xs[0]
+    value = xs[0]
+    for ele in xs:
+        if ele != value:
+            return False
+    return True
+
+
+#CH6: Build a pile of Cubes
+def find_nb(m):
+    root = int(m**(1/4) * 1.4)
+    naeherung = calculate_nb(root)
+    while not naeherung > m:
+        if naeherung == m:
+            return root
+        root += 1
+        naeherung = calculate_nb(root)
+    return -1
+    # print("m: {0} root: {1} nb(root): {2} nb(root+1): {3}".format(m, root, calculate_nb(root), calculate_nb(root+1)))
+
+
+#somehow it gives a wrong value
+def calculate_nb(n):
+    return int((n**4 + 2*n**3 + n**2)/4)
+
+def check_calc_nb(n):
+    summeSimple = 0
+    for i in range(n+1):
+        summeSimple += i**3
+    summeCalc = calculate_nb(n)
+    print ("simple: {} calc: {}".format(summeSimple, summeCalc))
+    if summeCalc != summeSimple:
+        print("diff is %d" % (summeSimple - summeCalc))
+    return summeSimple == summeCalc
+
+#CH6: Street Fighter 2 - Character Selection
+def street_fighter_selection(fighters, initial_position, moves):
+    selected = []
+    pos = [i for i in initial_position]
+    for move in moves:
+        pos = do_move(pos, move, fighters)
+        selected.append(fighters[pos[1]][pos[0]])
+    return selected
+
+def do_move(pos, move, array):
+    x, y = len(array[0]), len(array) -1
+    if move == 'right':
+        pos[0] = (pos[0] + 1) % x
+    elif move == 'left':
+        pos[0] = (pos[0] - 1) % x
+    elif move == 'up':
+        pos[1] = max(0, pos[1] - 1)
+    elif move == 'down':
+        pos[1] = min(y, pos[1] + 1)
+    return pos
+
+fighters = [
+	["Ryu", "E.Honda", "Blanka", "Guile", "Balrog", "Vega"],
+	["Ken", "Chun Li", "Zangief", "Dhalsim", "Sagat", "M.Bison"]
+]
+start_pos = (0,0)
