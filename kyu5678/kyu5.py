@@ -277,3 +277,27 @@ def isOpposite(A, B):
     else:
         raise Exception
     return res
+
+
+#CH5: Molecule to atoms
+#not finished
+def parse_molecule (formula):
+    last_parenthesis = ''
+    for c in formula:
+        if c in ')]}':
+            last_parenthesis = c
+
+    parse_simple_molecule(formula)
+
+
+def parse_simple_molecule (formula):
+    pattern = re.compile(r'(([A-Z][a-z]?)(\d)?)')
+    atoms = re.findall(pattern, formula)
+    dict = {}
+    for atom in atoms:
+        if atom[2] != '':
+            dict[atom[1]] = int(atom[2])
+        else:
+            dict[atom[1]] = 1
+    return dict
+

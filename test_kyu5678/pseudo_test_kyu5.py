@@ -54,5 +54,8 @@ from test_kyu5678.pseudo_test_lib import *
 # pseudo_test_func(order_weight, "")
 # pseudo_test_func(order_weight, )
 
-pseudo_test_func(dirReduc, ["NORTH", "SOUTH", "SOUTH", "EAST", "WEST", "NORTH", "WEST"])
-pseudo_test_func(dirReduc, ["NORTH", "WEST", "SOUTH", "EAST"])
+# pseudo_test_func(dirReduc, ["NORTH", "SOUTH", "SOUTH", "EAST", "WEST", "NORTH", "WEST"])
+# pseudo_test_func(dirReduc, ["NORTH", "WEST", "SOUTH", "EAST"])
+
+
+pseudo_test_func(parse_simple_molecule, 'H2O')

@@ -54,19 +54,19 @@ from kyu5678.kyu6 import *
 # pseudo_test_func(check_calc_nb, 126523)
 
 
-moves = ["left"]*8
-moves2 = []
-moves3 = ["right"]*8
-moves4 = ["up"]*4
-moves5 = ["down"]*4
-moves6 = ["down","right","up","left"]*2
-
-pseudo_test_func(street_fighter_selection, fighters, start_pos, moves)
-pseudo_test_func(street_fighter_selection, fighters, start_pos, moves2)
-pseudo_test_func(street_fighter_selection, fighters, start_pos, moves3)
-pseudo_test_func(street_fighter_selection, fighters, start_pos, moves4)
-pseudo_test_func(street_fighter_selection, fighters, start_pos, moves5)
-pseudo_test_func(street_fighter_selection, fighters, start_pos, moves6)
+# moves = ["left"]*8
+# moves2 = []
+# moves3 = ["right"]*8
+# moves4 = ["up"]*4
+# moves5 = ["down"]*4
+# moves6 = ["down","right","up","left"]*2
+#
+# pseudo_test_func(street_fighter_selection, fighters, start_pos, moves)
+# pseudo_test_func(street_fighter_selection, fighters, start_pos, moves2)
+# pseudo_test_func(street_fighter_selection, fighters, start_pos, moves3)
+# pseudo_test_func(street_fighter_selection, fighters, start_pos, moves4)
+# pseudo_test_func(street_fighter_selection, fighters, start_pos, moves5)
+# pseudo_test_func(street_fighter_selection, fighters, start_pos, moves6)
 
 
 
