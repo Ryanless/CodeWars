@@ -69,5 +69,6 @@ from kyu5678.kyu6 import *
 # pseudo_test_func(street_fighter_selection, fighters, start_pos, moves6)
 
 
+pseudo_test_func(diamond, 3)
 
 

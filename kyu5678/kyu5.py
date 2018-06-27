@@ -1,4 +1,5 @@
 import re
+import math
 
 #CH: Number of trailing zeros of N!
 
@@ -300,4 +301,126 @@ def parse_simple_molecule (formula):
         else:
             dict[atom[1]] = 1
     return dict
+
+#CH5: Calculating with Functions
+#region CH5
+
+
+def zero(args=None):
+    if args == None:
+        return 0
+    else:
+        return calc(0, *args)
+
+
+def one(args=None):
+    if args == None:
+        return 1
+    else:
+        return calc(1, *args)
+
+
+def two(args=None):
+    if args == None:
+        return 2
+    else:
+        return calc(2, *args)
+
+
+def three(args=None):
+    if args == None:
+        return 3
+    else:
+        return calc(3, *args)
+
+
+def four(args=None):
+    if args == None:
+        return 4
+    else:
+        return calc(4, *args)
+
+
+def five(args=None):
+    if args == None:
+        return 5
+    else:
+        return calc(5, *args)
+
+
+def six(args=None):
+    if args == None:
+        return 6
+    else:
+        return calc(6, *args)
+
+
+def seven(args=None):
+    if args == None:
+        return 7
+    else:
+        return calc(7, *args)
+
+
+def eight(args=None):
+    if args == None:
+        return 8
+    else:
+        return calc(8, *args)
+
+
+def nine(args=None):
+    if args == None:
+        return 9
+    else:
+        return calc(9, *args)
+
+
+def calc(a, b, op):
+    if op == "+":
+        return a + b
+    elif op == "-":
+        return a - b
+    elif op == "*":
+        return a * b
+    elif op == "/":
+        return a // b
+    else:
+        return "Error"
+
+
+def plus(n):
+    return n, "+"
+
+
+def minus(n):
+    return n, "-"
+
+
+def times(n):
+    return n, "*"
+
+
+def divided_by(n):
+    return n, "/"
+
+#endregion
+
+
+#CH5: Find the smallest
+def smallest(n):
+    arr = [x for x in str(n)]
+    start, end, nr = 'x', 'x', math.inf
+    for i in range(len(arr)):
+        for j in range(len(arr)):
+            tested_nr = int(''.join(moveDigit(i, j, arr)))
+            if tested_nr < nr:
+                start, end, nr = i, j, tested_nr
+    return [nr, start, end]
+
+
+def moveDigit(a, b, arr):
+    r = [arr[x] for x in range(len(arr)) if x != a]
+    r = r[:b] + [arr[a]] + r[b:]
+    return r
 

@@ -58,4 +58,12 @@ from test_kyu5678.pseudo_test_lib import *
 # pseudo_test_func(dirReduc, ["NORTH", "WEST", "SOUTH", "EAST"])
 
 
-pseudo_test_func(parse_simple_molecule, 'H2O')
+# pseudo_test_func(parse_simple_molecule, 'H2O')
+
+# a = seven(times(five()))
+# print(a)
+
+pseudo_test_func(smallest, 324)
+pseudo_test_func(smallest, 32300)
+pseudo_test_func(smallest, 3204)
+pseudo_test_func(smallest, 1000)

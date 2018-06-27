@@ -191,3 +191,14 @@ def decodeMorse(morse_code):
             t += MORSE_CODE[l]
         readables.append(t)
     return ' '.join(readables)
+
+#CH6: Give me a Diamond
+def diamond(n):
+    # Make some diamonds!
+    if n < 0 or n % 2 == 0: return
+    result = ""
+    for i in range(1, n + 1, 2):
+        result += " "*int((n-i)/2) + "*"*i + "\n"
+    for j in range(n - 2, 0, -2):
+        result += " "*int((n-j)/2) + "*"*j + "\n"
+    return result
