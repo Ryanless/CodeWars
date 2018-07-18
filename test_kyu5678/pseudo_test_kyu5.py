@@ -63,7 +63,14 @@ from test_kyu5678.pseudo_test_lib import *
 # a = seven(times(five()))
 # print(a)
 
-pseudo_test_func(smallest, 324)
-pseudo_test_func(smallest, 32300)
-pseudo_test_func(smallest, 3204)
-pseudo_test_func(smallest, 1000)
+# pseudo_test_func(smallest, 324)
+# pseudo_test_func(smallest, 32300)
+# pseudo_test_func(smallest, 3204)
+# pseudo_test_func(smallest, 1000)
+
+farm = "fox,bug,chicken,grass,sheep"
+prarie = 'giraffe,leaves,leaves,leaves,bear,bug,leaves,leaves,panda'
+long_necks = 'big-fish,lion,leaves,grass,busker,giraffe,giraffe,grass,leaves,giraffe'
+pseudo_test_func(who_eats_who, long_necks)
+pseudo_test_func(who_eats_who, prarie)
+pseudo_test_func(who_eats_who, farm)

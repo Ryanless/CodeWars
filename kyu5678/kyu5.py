@@ -302,8 +302,8 @@ def parse_simple_molecule (formula):
             dict[atom[1]] = 1
     return dict
 
-#CH5: Calculating with Functions
-#region CH5
+
+#region CH5: Calculating with Functions
 
 
 def zero(args=None):
@@ -423,4 +423,40 @@ def moveDigit(a, b, arr):
     r = [arr[x] for x in range(len(arr)) if x != a]
     r = r[:b] + [arr[a]] + r[b:]
     return r
+
+#CH5: The Hunger Games - Zoo Disaster!
+eatDict = {'antelope': ['grass'], 'big-fish': ['little-fish'], 'giraffe': ['leaves'],
+           'bug': ['leaves'], 'bear': ['big-fish', 'bug', 'chicken', 'cow', 'leaves', 'sheep'],
+           'chicken': ['bug'], 'cow': ['grass'], 'fox': ['chicken', 'sheep'],
+           'lion': ['antelope', 'cow'], 'panda': ['leaves'], 'sheep': ['grass']}
+
+def who_eats_who(zoo):
+    result = [zoo]
+    zooList = zoo.split(',')
+    while True:
+        eaten = eat_next(zooList)
+        if eaten == "": break
+        result.append(eaten)
+    result.append(','.join(zooList))
+    return result
+
+def eat_next(zoo):
+    if len(zoo) == 1: return ""
+    if zoo[0] in eatDict and zoo[1] in eatDict[zoo[0]]: return eat(zoo, 0, 1)
+
+    for i in range(1, len(zoo) - 1):
+        if zoo[i] in eatDict:
+            if zoo[i - 1] in eatDict[zoo[i]]:
+                return eat(zoo, i, i - 1)
+            elif zoo[i + 1] in eatDict[zoo[i]]:
+                return eat(zoo, i, i + 1)
+
+    if zoo[-1] in eatDict and zoo[-2] in eatDict[zoo[-1]]: return eat(zoo, -1, -2)
+    return ""
+
+
+def eat(zoo, hunter, prey):
+    eatString = '{} eats {}'.format(zoo[hunter], zoo[prey])
+    del(zoo[prey])
+    return eatString
 
