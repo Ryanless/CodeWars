@@ -2,17 +2,9 @@ import itertools
 
 #CH2: 6 By 6 Skyscrapers
 def solve_puzzle(clues):
-    p0 = get_possible_perm(0)
-    p1 = get_possible_perm(1)
-    p2 = get_possible_perm(2)
-    p3 = get_possible_perm(3)
-    p4 = get_possible_perm(4)
-    p5 = get_possible_perm(5)
-    p6 = get_possible_perm(6)
-
-
-    return None
-
+    field = SkyscraperField(clues)
+    field.solvePuzzle()
+    return field.getFieldAsTuple()
 
 def get_visible(line):
     count = 1
@@ -47,48 +39,66 @@ def get_perm_list(perm_array, visCount):
     return posib
 
 
-
 class SkyscraperField:
 
-    perm_rows = []
-    perm_columns = []
-    used_rows = [[] for aa in range(6)]
-    used_columns = [[] for bb in range(6)]
-    _field = [[0] * 6 for ii in range(6)]
-    possibilityField = [[[*range(1, 7)] for jj in range(6)] for kk in range(6)]
-
     def __init__(self, clues):
-        self.clues = clues
-        self.possiblePerms = []
+        self._field = [[0] * 6 for ii in range(6)]
         self.height = len(self._field)
         self.width = len(self._field[0])
+        self.perm_rows = []
+        self.perm_columns = []
+        self.possibilityField = [[[*range(1, 7)] for jj in range(6)] for kk in range(6)]
+        self.iteration = 0
+
+        self.clues = clues
+        self.possiblePerms = []
+
         for i in range(7):
             p = get_possible_perm(i)
             self.possiblePerms.append(p)
-        self.setupLines()
+        self.__setupLines()
+
+        self.__total_row_perm = self.get_total_row_perms()
+        self.__total_col_perm = self.get_total_col_perms()
+
+    def get_total_row_perms(self):
+        multi_row = 1
+        for row in self.perm_rows:
+            multi_row *= len(row)
+        return multi_row
+
+    def get_total_col_perms(self):
+        multi_col = 1
+        for col in self.perm_columns:
+            multi_col *= len(col)
+        return multi_col
+
+    def getFieldAsTuple(self):
+        tup = tuple(tuple(row) for row in self._field)
+        return tup
+
+
+# region iteration
+    def solvePuzzle(self):
+        solved = False
+        while not solved:
+            self.recalculatePossibilityField()
+            self.filterLinesByPossibilityField()
+            solved = self.checkProgress() == 1
+            self.iteration += 1
+        return self._field
 
     def recalculatePossibilityField(self):
         for y in range(self.height):
-            rowPos = 0
+
             for x in range(self.width):
-                r = self.calculateCellPosibilities(y, x)
+                r = self.__calculateCellPosibilities(y, x)
                 self.possibilityField[y][x] = r
                 if len(r) == 1:
-                    # print('Bingo! x:{} y:{} is {}'.format(x, y, r[0]))
-                    self.setCell(y, x, r[0])
-                rowPos += len(r)
-            # print('Row {} has {} total posibilities'.format(y, rowPos))
-
-
-    def setCell(self, y, x, value):
-        self._field[y][x] = value
-        self.used_columns[x].append(value)
-        self.used_rows[y].append(value)
-
-
+                    self._field[y][x] = r[0]
 
     #Uses the rows & columns to find/eliminate possibilities of the target cell
-    def calculateCellPosibilities(self, y, x):
+    def __calculateCellPosibilities(self, y, x):
         p_row = (z[x] for z in self.perm_rows[y])
         p_col = (z[y] for z in self.perm_columns[x])
         inter = set(p_row).intersection(p_col)
@@ -96,8 +106,26 @@ class SkyscraperField:
         inter = set(inter).intersection(old)
         return list(inter)
 
+    def filterLinesByPossibilityField(self):
+        for y in range(self.height):
+            for x in range(self.width):
+                posib = self.possibilityField[y][x]
+                self.perm_rows[y] = [perm for perm in self.perm_rows[y] if perm[x] in posib]
+                self.perm_columns[x] = [perm for perm in self.perm_columns[x] if perm[y] in posib]
 
-    def setupLines(self):
+    def checkProgress(self):
+        new_row_perm = self.get_total_row_perms()
+        row_progress = self.__total_row_perm / new_row_perm
+        self.__total_row_perm = new_row_perm
+
+        new_col_perm = self.get_total_col_perms()
+        col_progress = self.__total_col_perm / new_col_perm
+        self.__total_col_perm = new_col_perm
+        return max(row_progress, col_progress)
+
+# endregion
+
+    def __setupLines(self):
         for x in range(6):
             nrX = self.clues[17 - x]
             column = get_2_cues_perm(self.possiblePerms[nrX], self.clues[x])
@@ -107,29 +135,6 @@ class SkyscraperField:
             nrY = self.clues[29 - y]
             row = get_2_cues_perm(self.possiblePerms[nrY], self.clues[y])
             self.perm_rows.append(row)
-
-
-    def filterLines(self):
-        #filter the lines in which you have values
-        for y in range(self.height):
-            for x in range(self.width):
-                value = self._field[y][x]
-                if value != 0:
-                    self.perm_columns[x] = [col for col in self.perm_columns[x] if col[y] == value]
-                    self.perm_rows[y] = [row for row in self.perm_rows[y] if row[x] == value]
-
-        #filter the lines which are restricted to have already used values
-        for y in range(self.height):
-            if self.used_rows[y] != []:
-                for xx in range(self.width):
-                    self.perm_columns[xx] = [col for col in self.perm_columns[xx] if col[y] not in self.used_rows[y] or self._field[y][xx] != 0]
-
-        for x in range(self.width):
-            if self.used_columns[x] != []:
-                for yy in range(self.height):
-                    self.perm_rows[yy] = [row for row in self.perm_rows[yy] if row[x] not in self.used_columns[y] or self._field[yy][x] != 0]
-
-
 
     def pretty_print(self):
         border = '    {}   {}   {}   {}   {}   {}\n'
@@ -149,10 +154,17 @@ class SkyscraperField:
 
         print(complete)
 
-
     def print_lines(self):
+        multi_col = 1
+        multi_row = 1
         for i in range(len(self.perm_rows)):
-            print('Row {} has {} possibilities'.format(i + 1, len(self.perm_rows[i])))
+            row_len = len(self.perm_rows[i])
+            multi_row *= row_len
+            print('Row {} has {} possibilities'.format(i + 1, row_len))
         for j in range(len(self.perm_columns)):
-            print('Column {} has {} possibilities'.format(j + 1, len(self.perm_columns[j])))
+            col_len = len(self.perm_columns[j])
+            multi_col *= col_len
+            print('Column {} has {} possibilities'.format(j + 1, col_len))
+        print("Total Row permuation is {:.2e}".format(multi_row))
+        print('Total Col Permuation is {:.2e}'.format(multi_col))
 
